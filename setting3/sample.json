@@ -1,0 +1,10 @@
+{
+"name":"sample",
+"prm_cpd":"0.5",
+"prm_mkcpd":"0.1",
+"prm_mkcol":"200",
+"prm_shift":"0.3",
+"prm_tm1":"500",
+"prm_tm2":"200\n500\n1000",
+"prm_tm3":"1000"
+}
