@@ -37,26 +37,30 @@
 検査条件
 <div class="dropdown">
 <div><button id="FMload"></button>開く</div>
-<div id="FMload_pm" style="margin-left:30px;"></div>
-<div><button id="FMsave"></button>保存</div>
-<div id="FMsave_pm" style="margin-left:0;"></div>
-<div><button id="FMremove"></button>削除</div>
-<div id="FMremove_pm" style="margin-left:30px;"></div>
+<div id="FMload_pm"></div>
+<div><button id="FMsave"></button>保存する</div>
+<div id="FMsave_pm"></div>
+<div><button id="FMremove"></button>削除する</div>
+<div id="FMremove_pm"></div>
 </div>
 <hr>
 <div>現在値
-<input id="stat_v1" type="text" style="width:60%;border:1;background-color:beige" readonly>deg</input>
+<input id="stat_v1" type="text" style="width:60%;border:1;background-color:beige" readonly>行</input>
+<input id="stat_v2" type="text" style="width:60%;border:1;background-color:beige" readonly>deg</input>
 </div>
 <hr>
-<table width="100%" style="border:0;">
-<tr><td width="60%"><button style="width:100%;" class="queue" id="srv_run2">開始</button>
-<td width="35%"><svg class="indicator" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15 15">
-<g>
-<path d="M13,14H2c-0.5523,0-1-0.4477-1-1V2c0-0.5523,0.4477-1,1-1h11c0.5523,0,1,0.4477,1,1v11C14,13.5523,13.5523,14,13,14z"/>
-</g>
+<svg class="indicator" width="25%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15 15">
+<circle cx="7.5" cy="7.5" r="7" />
 </svg>
-<tr><td><button  style="width:100%;" class="queue" id="srv_abort">停止</button><td>
-</table>
+<svg class="indicator" width="25%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15 15">
+<circle cx="7.5" cy="7.5" r="7" />
+</svg>
+<svg class="indicator" width="25%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15 15">
+<circle cx="7.5" cy="7.5" r="7" />
+</svg>
+<hr>
+<button class="queue" id="srv_run2">スタート</button>
+<button class="queue" id="srv_abort">ストップ</button>
 </div>
 
 </div>
@@ -97,19 +101,20 @@ $(document).ready(function(){
 		ws['tpc_runlevel']=function(n){
 			stat.run=n;
 			if(n>0){
-				if(stat.wait>0) $('.indicator').css({'animation-name':'steady','animation-duration':'2.0s'});
-				else $('.indicator').css({'animation-name':'halt','animation-duration':'1.0s'});
+				if(stat.wait>0) $('.indicator').css({'animation-name':'steady'});
+				else $('.indicator').css({'animation-name':'halt'});
 			}
 			else $('.indicator').css({'animation-name':'none'});
 		}
 		ws['tpc_wait']=function(n){
 			stat.wait=n;
 			if(stat.run>0){
-				if(n>0) $('.indicator').css({'animation-name':'steady','animation-duration':'2.0s'});
-				else $('.indicator').css({'animation-name':'halt','animation-duration':'1.0s'});
+				if(n>0) $('.indicator').css({'animation-name':'steady'});
+				else $('.indicator').css({'animation-name':'halt'});
 			}
 		}
-		ws['tpc_mkcpd']=function(n){ $('#stat_v1').val(n);}
+		ws['tpc_runcount']=function(n){ $('#stat_v1').val(n==0? '':n);}
+		ws['tpc_mkcpd']=function(n){ $('#stat_v2').val(n==0? '':n);}
 	});
 	$('#srv_run2').click(function(){
 		console.log('name saved:'+ws['name']);

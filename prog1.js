@@ -33,6 +33,7 @@ function run(){
 		if(arguments.length==0) return;
 		busy=true;
 		schld=text2array(ws.prm_cpd);
+		pub.tpc_runcount=0;
 		pub.tpc_runlevel=1;
 //the first frame
 	case 1:
@@ -41,6 +42,7 @@ function run(){
 			setTimeout(run,1);
 			return;
 		}
+		pub.tpc_runcount++;
 		pub.tpc_cpd=Number(schld.shift());
 		pub.tpc_mkcpd=ws.prm_mkcpd;
 		pub.tpc_tm2=ws.prm_tm2;
@@ -63,7 +65,7 @@ function run(){
 //the 2nd and following frames
 	case 2:
 		pub.tpc_diag=1; //start GL process diagnostic
-		pub.tpc_ext=5001+pub.tpc_runcount;  //UDP
+		pub.tpc_ext=5000+pub.tpc_runcount;  //UDP
 		var tp=pnow()+Number(ws.prm_tm2);
 		for(var f=Math.floor(ws.prm_tm2*ws.prm_fps/1000);f>0;f--){
 			pub.tpc_phase+=pub.tpc_dph;
@@ -78,7 +80,6 @@ function run(){
 		return;
 	case 3:
 		pub.tpc_diag=0; //stop GL process diagnostic
-		pub.tpc_runcount++;
 		pub.tpc_wait=ws.prm_tm3;
 		if(pub.tpc_wait>0){
 			setTimeout(run,pub.tpc_wait);
@@ -88,10 +89,10 @@ function run(){
 		pub.tpc_runlevel=1;
 		return;
 	case 99: //request to terminate
-		pub.tpc_runlevel=pub.tpc_runcount=pub.tpc_wait=0;
-		glfw.stdin.write('B 1 '+ws.prm_bg+'\n');
+		pub.tpc_runlevel=pub.tpc_wait=0;
 		ws.notif(pub);
-		pub.tpc_cpd=pub.tpc_mkcpd='';
+		glfw.stdin.write('B 1 '+ws.prm_bg+'\n');
+		pub.tpc_runcount=pub.tpc_cpd=pub.tpc_mkcpd=pub.tpc_tm2=0;
 		busy=false;
 		return;
 	}
