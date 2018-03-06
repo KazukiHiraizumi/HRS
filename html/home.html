@@ -33,17 +33,17 @@ a{
 <div id="main">
 <div>設置条件</div>
 <table border>
-<tr><td>水平解像度<td><input class="shared" type="text" id="prm_resol"></input><td>pixels</tr>
-<tr><td>画面の幅<td><input class="shared" type="text" id="prm_scnwid"></input><td>mm</tr>
-<tr><td>視距離<td><input class="shared" type="text" id="prm_scndist"></input><td>mm</tr>
-<tr><td>リフレッシュレート<td><input class="shared" type="text" id="prm_fps"></input><td>fps</tr>
-<tr><td>アイトラッカーURL<td colspan="2"><input class="shared" type="text" id="prm_eturl"></input></tr>
+<tr><td>水平解像度<td><input class="shared" id="prm_resol"></input><td>pixels</tr>
+<tr><td>画面の幅<td><input class="shared" id="prm_scnwid"></input><td>mm</tr>
+<tr><td>視距離<td><input class="shared" id="prm_scndist"></input><td>mm</tr>
+<tr><td>リフレッシュレート<td><input class="shared" id="prm_fps"></input><td>fps</tr>
+<tr><td>アイトラッカーURL<td colspan="2"><input class="shared" id="prm_eturl"></input></tr>
 </table>
 <div>明るさ</div>
 <table border>
-<tr><td>背景<td><input class="shared" type="text" id="prm_bg"></input><td>0.0~1.0</tr>
-<tr><td>最大<td><input class="shared" type="text" id="prm_greyp"></input><td>0.0~1.0</tr>
-<tr><td>最小<td><input class="shared" type="text" id="prm_greyn"></input><td>0.0~1.0</tr>
+<tr><td>背景<td><input class="shared" id="prm_bg"></input><td>0.0~1.0</tr>
+<tr><td>最大<td><input class="shared" id="prm_greyp"></input><td>0.0~1.0</tr>
+<tr><td>最小<td><input class="shared" id="prm_greyn"></input><td>0.0~1.0</tr>
 <tr><td>２値化<td><input class="shared" type="checkbox" id="prm_bin" style="width:auto;"></input><td></tr>
 <tr><td>量子化<td><input class="shared" type="checkbox" id="prm_quan" style="width:auto;"></input><td></tr>
 </table>
@@ -51,13 +51,13 @@ a{
 <div id="calpan" style="display:none;">
 <table border style="width:100%;">
 <tr><td style="width:33%;"><button>0</button></td><td style="width:33%;"><button>0</button></td><td><button>0</button></td></tr>
-<tr><td><button>0</button></td><td><button>0</button></td><td><button>0</button></td></tr>
-<tr><td><button>0</button></td><td><button>0</button></td><td><button>0</button></tr>
+<tr><td style="width:33%;"><button>0</button></td><td style="width:33%;"><button>0</button></td><td><button>0</button></td></tr>
+<tr><td style="width:33%;"><button>0</button></td><td style="width:33%;"><button>0</button></td><td><button>0</button></tr>
 </table>
 </div>
 <table border id="calset">
-<tr><td>点の大きさ<td><input class="shared" type="text" id="prm_calcpd"></input><td>deg</tr>
-<tr><td>点の明るさ<td><input class="shared" type="text" id="prm_calcol"></input><td>0.0~1.0</tr>
+<tr><td>点の大きさ<td><input class="shared" id="prm_calcpd"></input><td>deg</tr>
+<tr><td>点の明るさ<td><input class="shared" id="prm_calcol"></input><td>0.0~1.0</tr>
 </table>
 </div>
 
