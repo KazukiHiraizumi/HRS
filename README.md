@@ -1,36 +1,39 @@
-# HRS
-4K Resolution Optical Stimulator
-
-## Needed
+# 高解像度視覚刺激システム
+## 準備
 ### Node.js
-- Install
+- インストール方法
+sudo apt-get install nodejs
+sudo apt-get install npm
 
 ### GL-Console(https://github.com/KazukiHiraizumi/GL-Console)
-- Install
+- インストール方法
+git clone https://github.com/KazukiHiraizumi/GL-Console
+cd GL-Console
+make kio
+sudo make install
 
 ### Httpd "Lighttpd"
-- Install
- sudo apt-get install lighttpd
-- Configuration
- - Add below in "/etc/lighttpd/lighttpd.conf"
-  server.modules += (
-	 "mod_cgi"
-  )
-  cgi.assign = ( ".sh"  => "/bin/bash" )
- - Set Home path an
-  ln -fs /home/<your accont>/HRS /var/www/html
+- インストール方法
+sudo apt-get install lighttpd
+- "/etc/lighttpd/lighttpd.conf"に以下を加える
+server.modules += (
+   "mod_cgi"
+)
+cgi.assign = ( ".sh"  => "/bin/bash" )
+- Set Home path an
+ln -fs /home/<your accont>/HRS /var/www/html
 
-- Auto start
- sudo systemctl start lighttpd.service
+- 自動起動
+sudo systemctl start lighttpd.service
 
 
-##Setup
+## セットアップ
 - Add "start.sh" as a Session Manager Startup Application
-    or just press ./start.sh
+    or just type ./start.sh
 - Display Language
   cd HRS
   ./jp.sh  //Japanese
   ./en.sh  //English
 
-##Operation
+## Operation
 - Connect to it via WebBrowser. The start URL is "home.html"
