@@ -106,14 +106,17 @@ FileMan.prototype={
 		this.json_ls(function(list){
 			evptr.sel(target);
 			for(var i=0;i<list.length;i++){
-				$('#FMremove_pm').append('<div><a href="#">'+list[i]+'</a></div>');
+				if($('#name').val()!=list[i]) $('#FMremove_pm').append('<div><a href="#">'+list[i]+'</a></div>');
 			}
 			$('#FMremove_pm a').click(function(e){
-//				evptr.json_rm($(e.target).text(),function(data){
+				evptr.json_rm($(e.target).text(),function(){
 					$(e.target).remove();
-//				});
-				if($('#FMremove_pm a').length==0) evptr.unsel(target);
+					if($('#FMremove_pm a').length==0) evptr.unsel(target);
+				});
 			});
+			if($('#FMremove_pm a').length==0) setTimeout(function(){
+				evptr.unsel(target);
+			},500);
 		});
 	},
 	check:function(obj){
@@ -149,12 +152,12 @@ FileMan.prototype={
 			obj.json_save.apply(obj,arg);
 		});
 	},
-	json_rm:function(name,data,removef){
+	json_rm:function(name,removef){
 		var obj=this;
 		var arg=arguments;
 		XHRget('json-rm.sh?'+this.dir+'/'+name).then(function(response){
 			console.log("json-rm ok:", response);
-			if(arg.length>=3){
+			if(arg.length>=2){
 				removef(response);
 			}
 		}, function(error) {
