@@ -58,6 +58,8 @@ a{
 <table border id="calset">
 <tr><td>点の大きさ<td><input class="shared" id="prm_calcpd"></input><td>deg</tr>
 <tr><td>点の明るさ<td><input class="shared" id="prm_calcol"></input><td>0.0~1.0</tr>
+<tr><td>左右角<td><input class="shared" id="prm_caldx"></input><td>deg</tr>
+<tr><td>上下角<td><input class="shared" id="prm_caldy"></input><td>deg</tr>
 </table>
 </div>
 
@@ -87,6 +89,8 @@ var param={
 	'prm_quan':false,
 	'prm_calcpd':0,
 	'prm_calcol':100,
+	'prm_caldx':10,
+	'prm_caldy':10,
 	'prm_url':'localhost:3000',
 };
 
@@ -148,9 +152,12 @@ $(document).ready(function(){
 		if($('#swcal').html()=='X'){
 			$('#swcal').html('&nabla;');
 			$('#calpan').css({'display':'none'});
+			ws.send({'srv_clear':true});
 		}
 		else{
 			$('#swcal').html('X');
+			$('#calpan button').empty();
+			$('#calpan button').html('0');
 			$('#calpan').css({'display':'block'});
 		}
 	});

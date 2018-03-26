@@ -65,7 +65,8 @@ function run(){
 	case 2:
 		glfw.stdin.write('W '+pub.tpc_lamda+' 0 '+ws.prm_greyp+' '+ws.prm_greyn+' '+ws.prm_bin+';');
 		glfw.stdin.write('C 0 0 '+deg2gl(pub.tpc_mkcpd*0.5)+' '+ws.prm_mkcol+'\n');
-		pub.tpc_wait=pub.tpc_tm2;
+		if(ws.prm_t2uni=='msec') pub.tpc_wait=pub.tpc_tm2;
+		else pub.tpc_wait=Math.floor(pub.tpc_tm2*1000/60);
 		if(pub.tpc_wait>0) setTimeout(run,pub.tpc_wait);
 		ws.notif(pub);
 		pub.tpc_runlevel=3;
@@ -81,9 +82,12 @@ function run(){
 		return;
 	case 4:
 		pub.tpc_diag=0; //stop GL process diagnostic
-		glfw.stdin.write('B 1 '+ws.prm_bg+'\n');
- 		setTimeout(run,1);
-		ws.notif(pub);
+		pub.tpc_wait=ws.prm_tm4;
+		if(pub.tpc_wait>0){
+			setTimeout(run,pub.tpc_wait);
+			glfw.stdin.write('B 1 '+ws.prm_bg+'\n');
+		}
+		ws.notif(pub)
 		pub.tpc_runlevel=1;
 		return;
 	case 99: //request to terminateb

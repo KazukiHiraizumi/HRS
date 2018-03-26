@@ -30,6 +30,15 @@ FileMan.prototype={
 		obj.html('&nabla;');
 		this.seled=false;
 	},
+	unselall:function(){
+		$('#FMload_pm').empty();
+		$('#FMsave_pm').empty();
+		$('#FMremove_pm').empty();
+		$('#FMload').html('&nabla;');
+		$('#FMsave').html('&nabla;');
+		$('#FMremove').html('&nabla;');
+		this.seled=false;
+	},
 	reflect:function(obj){
 		var ret={};
 		for(var prop in obj){
@@ -77,13 +86,16 @@ FileMan.prototype={
 		var target=$(e.target);
 		if(this.check(target)) return;
 		var evptr=this;
+		var ovrwrt=true;
 		this.json_ls(function(list){
 			evptr.sel(target);
 			$('#FMsave_pm').html('<div><input style="width:75%;"></input><button>&radic;</button></div>');
 			var obj=evptr.collect(ws);
 			$('#FMsave_pm input').val(obj['name']);
+			$('#FMsave_pm input').focus();
 			$('#FMsave_pm input').css('color','red');
 			$('#FMsave_pm button').click(function(){
+				if(ovrwrt && !confirm('ファイルを上書きします')) return;
 				var nam=$('#FMsave_pm input').val();
 				if(nam!=''){
 					obj['name']=ws['name']=nam;
@@ -94,8 +106,27 @@ FileMan.prototype={
 				}
 			});
 			$('#FMsave_pm input').keyup(function(){
-				if(list.indexOf($('#FMsave_pm input').val())<0) $('#FMsave_pm input').css('color','black');
-				else  $('#FMsave_pm input').css('color','red')
+				if(list.indexOf($('#FMsave_pm input').val())<0){
+					$('#FMsave_pm input').css('color','black');
+					ovrwrt=false;
+				}
+				else{
+					$('#FMsave_pm input').css('color','red');
+					ovrwrt=true;
+				}
+			});
+			$('#FMsave_pm input').keypress(function(event){
+				if(event.which==13){
+					if(ovrwrt && !confirm('ファイルを上書きします')) return;
+					var nam=$('#FMsave_pm input').val();
+					if(nam!=''){
+						obj['name']=ws['name']=nam;
+						evptr.reflect({'name':nam});
+						evptr.json_save(nam,obj,function(msg){
+							evptr.unsel(target);
+						});
+					}
+				}
 			});
 		});
 	},
@@ -109,14 +140,17 @@ FileMan.prototype={
 				if($('#name').val()!=list[i]) $('#FMremove_pm').append('<div><a href="#">'+list[i]+'</a></div>');
 			}
 			$('#FMremove_pm a').click(function(e){
-				evptr.json_rm($(e.target).text(),function(){
-					$(e.target).remove();
-					if($('#FMremove_pm a').length==0) evptr.unsel(target);
-				});
+				let fn=$(e.target).text();
+				if(confirm('! ファイル '+fn+' を削除します')){
+					evptr.json_rm($(e.target).text(),function(){
+						$(e.target).remove();
+						if($('#FMremove_pm a').length==0) evptr.unsel(target);
+					});
+				}
 			});
-			if($('#FMremove_pm a').length==0) setTimeout(function(){
+			if($('#FMremove_pm a').length==0){
 				evptr.unsel(target);
-			},500);
+			}
 		});
 	},
 	check:function(obj){
@@ -124,7 +158,10 @@ FileMan.prototype={
 			this.unsel(obj);
 			return true;
 		}
-		else return this.seled;
+		else{
+			this.unselall();
+			return false;
+		}
 	},
 //I/O for JSON file
 	json_ls:function(listf){
@@ -161,8 +198,11 @@ FileMan.prototype={
 				removef(response);
 			}
 		}, function(error) {
-			console.log("json-rm retry:", error);
-			obj.json_rm.apply(obj,arg);
+			console.log("json-rm error:", error);
+//			obj.json_rm.apply(obj,arg);
+			if(arg.length>=2){
+				removef(error);
+			}
 		});
 	},
 	json_load:function(name,loadf,errf){

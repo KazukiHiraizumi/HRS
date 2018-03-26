@@ -176,8 +176,10 @@ Object.assign(ws,{
 		pub.tpc_ext=4001+Number(n);
 		glfw.stdin.write('B 1 '+ws.prm_bg+';');
 		var rad=libs.deg2gl(ws.prm_calcpd)/2;
-		var x=(Math.floor(n%3)-1)*(1-rad);
-		var y=(1-Math.floor(n/3))*(9.0/16-rad);
+		var cx=libs.deg2gl(ws.prm_caldx);
+		var cy=libs.deg2gl(ws.prm_caldy);
+		var x=(Math.floor(n%3)-1)*cx;
+		var y=(1-Math.floor(n/3))*cy;
 		glfw.stdin.write('C '+x+' '+y+' '+rad+' '+ws.prm_calcol+'\n');
 	},
 	srv_glwrt:function(){
@@ -187,13 +189,13 @@ Object.assign(ws,{
 		}
 	},
 	srv_glrun:function(){
-		glfw.stdin.write('L title.obj 0.5\n');
-		glfw.stdin.write('R -90 1 0 0\n');
-		setTimeout(function(){
-			for(var i=0;i<100;i++){
-				glfw.stdin.write('R '+(-90+90*i/100)+' 1 0 0\n');
-			}
-		},1000);
+//		glfw.stdin.write('L title.obj 0.5\n');
+//		glfw.stdin.write('R -90 1 0 0\n');
+//		setTimeout(function(){
+//			for(var i=0;i<100;i++){
+//				glfw.stdin.write('R '+(-90+90*i/100)+' 1 0 0\n');
+//			}
+//		},1000);
 	}
 });
 

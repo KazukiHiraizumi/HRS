@@ -17,7 +17,7 @@ s/点の明るさ/Marker Brightness/g
 s/画面クリア/Clear Screen/g
 s/時間周波数/Temporal Frequency/g
 s/空間周波数/Spatial Frequency/g
-s/注視点サイズ/Fixation Point Size/g
+s/注視点の直径/Fixation Point Diameter/g
 s/注視点の明るさ/Fixation Point Brightness/g
 s/移動量/Phase Shifting/g
 s/開く/Load/g
